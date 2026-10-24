@@ -23,7 +23,7 @@
             padding: 20px;
         }
 
-        /* 验证门（密码 + 观看码通用样式） */
+        /* 密码门 */
         .gate {
             position: fixed;
             top: 0;
@@ -64,7 +64,6 @@
             font-size: 16px;
             text-align: center;
             margin-bottom: 16px;
-            letter-spacing: 2px;
         }
 
         .gate-input:focus {
@@ -140,7 +139,7 @@
             overflow: hidden;
         }
 
-        /* 播放器默认隐藏，验证通过后才显示 */
+        /* 播放器默认隐藏，密码通过后才显示 */
         #player_b96be5b466fba939 {
             position: absolute;
             top: 0;
@@ -191,27 +190,15 @@
     </style>
 </head>
 <body>
-    <!-- 第一重门：网页密码 -->
+    <!-- 密码门 -->
     <div class="gate" id="password-gate">
         <div class="gate-box">
             <h2>🔒 课程访问</h2>
             <p class="gate-sub">请输入课程访问密码</p >
             <input type="password" id="password-input" class="gate-input" placeholder="访问密码" maxlength="20">
             <br>
-            <button class="gate-btn" onclick="checkPassword()">下一步</button>
+            <button class="gate-btn" onclick="checkPassword()">进入课程</button>
             <div class="gate-error" id="password-error">密码错误，请重试</div>
-        </div>
-    </div>
-
-    <!-- 第二重门：观看码 -->
-    <div class="gate" id="watchcode-gate" style="display:none;">
-        <div class="gate-box">
-            <h2>🎫 观看验证</h2>
-            <p class="gate-sub">请输入老师发放的观看码</p >
-            <input type="text" id="watchcode-input" class="gate-input" placeholder="观看码" maxlength="30">
-            <br>
-            <button class="gate-btn" onclick="checkWatchCode()">进入课程</button>
-            <div class="gate-error" id="watchcode-error">观看码错误，请重试</div>
         </div>
     </div>
 
@@ -247,20 +234,22 @@
 
     <script>
         // ============================================
-        // 配置区（如需更换，只改这里）
+        // 配置区（如需更换密码，只改这里）
         // ============================================
-        const CORRECT_PASSWORD = '1949101';              // 网页访问密码
-        const CORRECT_WATCHCODE = '6ADBF55393DEECC12297B586'; // 观看码（发放给学员）
+        const CORRECT_PASSWORD = '1949101';  // 网页访问密码
 
         // ============================================
-        // 第一重验证：网页密码
+        // 密码验证
         // ============================================
         function checkPassword() {
             const input = document.getElementById('password-input').value.trim();
             if (input === CORRECT_PASSWORD) {
                 document.getElementById('password-gate').style.display = 'none';
-                document.getElementById('watchcode-gate').style.display = 'flex';
-                document.getElementById('watchcode-input').focus();
+                document.getElementById('main-content').style.display = 'block';
+
+                // 密码通过：显示播放器并加载视频
+                document.getElementById('player_b96be5b466fba939').style.display = 'block';
+                initPlayer();
             } else {
                 document.getElementById('password-error').style.display = 'block';
                 document.getElementById('password-input').value = '';
@@ -272,29 +261,7 @@
         });
 
         // ============================================
-        // 第二重验证：观看码
-        // ============================================
-        function checkWatchCode() {
-            const input = document.getElementById('watchcode-input').value.trim().toUpperCase();
-            if (input === CORRECT_WATCHCODE) {
-                document.getElementById('watchcode-gate').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-
-                // 验证全部通过：显示播放器并加载视频
-                document.getElementById('player_b96be5b466fba939').style.display = 'block';
-                initPlayer();
-            } else {
-                document.getElementById('watchcode-error').style.display = 'block';
-                document.getElementById('watchcode-input').value = '';
-            }
-        }
-
-        document.getElementById('watchcode-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') checkWatchCode();
-        });
-
-        // ============================================
-        // 初始化多吉云播放器（仅在双重验证通过后调用）
+        // 初始化多吉云播放器（仅在密码验证通过后调用）
         // ============================================
         function initPlayer() {
             var player = new DogePlayer({
@@ -305,7 +272,7 @@
             });
         }
 
-        // 页面加载后自动聚焦第一个输入框
+        // 页面加载后自动聚焦输入框
         window.onload = function() {
             document.getElementById('password-input').focus();
         };
