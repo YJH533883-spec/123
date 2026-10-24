@@ -131,7 +131,7 @@
             font-size: 14px;
         }
         /* 多吉云播放器容器 */
-        #player_31669f3ca1382ef1 {
+        #player_b96be5b466fba939 {
             position: absolute;
             top: 0;
             left: 0;
@@ -200,7 +200,7 @@
                         <div class="video-placeholder-text">视频配置中，请稍候...</div>
                     </div>
                     <!-- 多吉云播放器容器 -->
-                    <div id="player_31669f3ca1382ef1"></div>
+                    <div id="player_b96be5b466fba939"></div>
                 </div>
                 <div class="video-info">
                     <div class="video-info-title">第一讲：课程导学与基础梳理</div>
@@ -212,14 +212,12 @@
             </div>
         </div>
     </div>
-
     <!-- 多吉云播放器SDK -->
     <script type="text/javascript" src="https://player.dogecloud.com/js/loader"></script>
     <script>
         // 密码验证
         const CORRECT_PASSWORD = '1949101';
         let dogePlayer = null;
-
         function checkPassword() {
             const input = document.getElementById('password-input').value;
             if (input === CORRECT_PASSWORD) {
@@ -232,26 +230,24 @@
                 document.getElementById('password-input').value = '';
             }
         }
-
         // 回车提交密码
         document.getElementById('password-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 checkPassword();
             }
         });
-
         // 初始化多吉云播放器
         function initDogePlayer() {
             document.getElementById('video-placeholder').style.display = 'none';
-            document.getElementById('player_31669f3ca1382ef1').style.display = 'block';
+            document.getElementById('player_b96be5b466fba939').style.display = 'block';
             dogePlayer = new DogePlayer({
-                container: document.getElementById('player_31669f3ca1382ef1'),
+                container: document.getElementById('player_b96be5b466fba939'),
                 userId: 16170,
-                vcode: '31669f3ca1382ef1',
+                vcode: 'b96be5b466fba939',
+                watchCode: '6ADBF55393DEECC12297B586',
                 autoPlay: false
             });
         }
-
         window.onload = function() {
             document.getElementById('password-input').focus();
         };
